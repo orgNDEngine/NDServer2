@@ -67,5 +67,13 @@ NDInt32	NDCFile::flush()
 	return m_pNDCFileImpl->flush();
 }
 
+NDBool NDCFile::readline( void* pReadBuf, NDUint32 nSize )
+{
+	if ( NULL == m_pNDCFileImpl )	return NDFalse;
+
+	return m_pNDCFileImpl->readline( pReadBuf, nSize );
+}
+
 
 _NDSHAREBASE_END
+

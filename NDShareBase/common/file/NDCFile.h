@@ -26,6 +26,8 @@ public:
 	NDBool		isopen() const;
 	NDBool		open( const char* pFileName, const char* pOpenFlag );
 
+	NDBool		readline( void* pReadBuf, NDUint32 nSize );
+
 	NDUint32	read( void* pReadBuf, NDUint32 nSize );
 	NDUint32	write( const void* pWriteBuf, NDUint32 nSize );
 	NDUint32	size();

@@ -1,6 +1,11 @@
 Doc/
 *.exe
 
+[Unity]DebugBin/lib/NDShareBase.lib
+[Unity]DebugBin/lib/NDProtocol.lib
+[Unity]DebugBin/lib/NDServerShare.lib
+
+
 
 #################
 ## Visual Studio

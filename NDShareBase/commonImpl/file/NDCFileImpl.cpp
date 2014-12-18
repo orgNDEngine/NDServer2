@@ -1,7 +1,6 @@
 #include "NDCFileImpl.h"
 
 #include <string.h>
-#include <stdlib.h>
 
 _NDSHAREBASE_BEGIN
 
@@ -26,11 +25,8 @@ NDBool NDCFileImpl::isopen() const
 
 NDBool NDCFileImpl::open( const char* pFileName, const char* pOpenFlag )
 {
-	if ( NULL != m_pFile ) return NDFalse;
-	//if ( 0 != (::fopen_s(&m_pFile, pFileName, pOpenFlag )) )
-	//{
-	//	return NDFalse;
-	//}
+	if ( NULL != m_pFile || NULL == pFileName ) return NDFalse;
+
 	if ( NULL == (m_pFile = fopen( pFileName, pOpenFlag )) )
 	{
 		return NDFalse;
@@ -53,7 +49,7 @@ NDBool NDCFileImpl::open( const char* pFileName, const char* pOpenFlag )
 
 NDUint32 NDCFileImpl::read( void* pReadBuf, NDUint32 nSize )
 {
-	if ( NULL == m_pFile ) return 0;
+	if ( NULL == m_pFile || NULL == pReadBuf ) return 0;
 	if ( 0 == ::fseek(m_pFile, m_nReadStart, SEEK_SET) )
 	{
 		if ( 1 == ::fread( pReadBuf, nSize, 1, m_pFile ) )
@@ -67,7 +63,7 @@ NDUint32 NDCFileImpl::read( void* pReadBuf, NDUint32 nSize )
 
 NDUint32 NDCFileImpl::write( const void* pWriteBuf, NDUint32 nSize )
 {
-	if ( NULL == m_pFile ) return 0;
+	if ( NULL == m_pFile || NULL == pWriteBuf ) return 0;
 	if ( 0 == ::fseek(m_pFile, 0, SEEK_END) )
 	{
 		if ( 1 == ::fwrite( pWriteBuf, nSize, 1, m_pFile ) )
@@ -110,6 +106,12 @@ NDInt32	NDCFileImpl::flush()
 {
 	if ( NULL == m_pFile ) return 1;
 	return ::fflush( m_pFile );
+}
+
+NDBool NDCFileImpl::readline( void* pReadBuf, NDUint32 nSize )
+{
+	if ( NULL == m_pFile || NULL == pReadBuf )	return NDFalse;
+	return ( NULL != fgets( (char*)pReadBuf, nSize, m_pFile ) );
 }
 
 _NDSHAREBASE_END
