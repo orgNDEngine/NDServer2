@@ -22,20 +22,20 @@ enum SERVERTYPE
 	SERVER_MAX			= 0x7FFFFFFF,	//(0x7FFFFFFF是int最大正数2147483647);
 };
 
-//客户端和服务端协议ID临界值;
-enum csCriticalCMDProtocolID
-{
-	CMDP_NDC2LS_Start		=	LOGIN_SERVER			+ 0x1000,
-	CMDP_NDC2LS_End			=	LOGIN_SERVER			+ 0x100F,
-	CMDP_NDC2GTWS_Start		=	GATEWAY_SERVER			+ 0x1000,
-	CMDP_NDC2GTWS_End		=	GATEWAY_SERVER			+ 0x2000,
-	CMDP_NDLS2C_Start		=	GAME_CLIENT				+ 0x10,
-	CMDP_NDLS2C_End			=	GAME_CLIENT				+ 0x1F,
-	CMDP_NDGTWS2C_Start		=	GAME_CLIENT				+ 0x20,
-	CMDP_NDGTWS2C_End		=	GAME_CLIENT				+ 0xFFF,
-};
+////客户端和服务端协议ID临界值;
+//enum csCriticalCMDProtocolID
+//{
+//	CMDP_NDC2LS_Start		=	LOGIN_SERVER			+ 0x1000,
+//	CMDP_NDC2LS_End			=	LOGIN_SERVER			+ 0x100F,
+//	CMDP_NDC2GTWS_Start		=	GATEWAY_SERVER			+ 0x1000,
+//	CMDP_NDC2GTWS_End		=	GATEWAY_SERVER			+ 0x2000,
+//	CMDP_NDLS2C_Start		=	GAME_CLIENT				+ 0x10,
+//	CMDP_NDLS2C_End			=	GAME_CLIENT				+ 0x1F,
+//	CMDP_NDGTWS2C_Start		=	GAME_CLIENT				+ 0x20,
+//	CMDP_NDGTWS2C_End		=	GAME_CLIENT				+ 0xFFF,
+//};
 
-enum SpecialCMDProtocolID
+enum eSpecialCMDProtocolID
 {
 	CMDP_PING				= (MANAGE_SERVER + 1),
 	CMDP_DISCONNECT_NOTIFY,

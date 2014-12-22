@@ -351,6 +351,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="protocol"
+				>
+				<File
+					RelativePath=".\include\protocol\NDCmdProtocolS2S.h"
+					>
+				</File>
+				<Filter
+					Name="NDWorldToNDLogin"
+					>
+					<File
+						RelativePath=".\include\protocol\NDWorldToNDLogin\NDWS2LS_Register.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

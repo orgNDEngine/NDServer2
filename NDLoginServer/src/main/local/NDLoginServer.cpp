@@ -69,7 +69,7 @@ int mainWapper( int argc, char** argv )
 	SET_NDTOTAL_LOG_MGR( sNDLoginServer.logMgr() )
 
 	//start server service;
-	if ( NDFalse == NDServerManager::getSingleton().startServer( NDLoginServer::getSingletonPtr() ) )
+	if ( NDFalse == NDServerManager::getSingleton().startServer( NDLoginServer::getSingletonPtr(), NDFalse ) )
 	{
 		NDTOTAL_LOG_ERROR( " NDLoginServer startServer failed! " )
 		return 1;

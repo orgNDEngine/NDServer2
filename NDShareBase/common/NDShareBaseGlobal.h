@@ -191,7 +191,7 @@ public:
 	**  safe string copy
 	**  return copy size.
 	************************************************************************/
-	static NDUint32		nd_safeStrCopy( const char* pSrc, char* pDest, NDUint32 nSrcLen, NDUint32 nDestLen );
+	static NDUint32		nd_safeStrCopy( char* pDest, const char* pSrc, NDUint32 nDestLen, NDUint32 nSrcLen );
 
 
 	/************************************************************************
@@ -202,7 +202,7 @@ public:
 	**  Returns strlen(pSrc); if retval >= nDestLen, truncation occurred.
 	**  return copy size.
 	************************************************************************/
-	static NDUint32		nd_strlcpy( const char* pSrc, char* pDest, NDUint32 nDestLen );
+	static NDUint32		nd_strlcpy( char* pDest, const char* pSrc, NDUint32 nDestLen );
 
 
 

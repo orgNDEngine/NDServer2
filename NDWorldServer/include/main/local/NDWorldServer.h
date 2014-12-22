@@ -3,6 +3,7 @@
 
 
 #include "NDWorldCallBack.h"
+#include "NDWorldConnectProcess.h"
 
 //#include "Player/NDPlayerManager.h"
 
@@ -16,6 +17,7 @@ public:
 		m_pLocalServerInfo		= new NDLocalServerInfo;
 		m_pDataProcess			= new NDDataProcess;
 		m_pConfig				= new NDXmlConfigServerCommon;
+		m_pConnProcess			= new NDWorldConnectProcess;
 		m_pCallBack				= new NDWorldCallBack;
 		m_pConsoleCMDMagager	= new NDConsoleCMDManager;
 

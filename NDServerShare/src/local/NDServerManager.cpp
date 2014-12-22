@@ -10,12 +10,14 @@
 #include "file/NDConsoleLog.h"
 #include "file/NDCLogFile.h"
 
+#include "net/session/NDServerSession.h"
 #include "net/session/NDSessionManager.h"
 #include "net/process/NDServerTask.h"
 #include "net/process/NDDataProcess.h"
 #include "net/netio/NDClientNetIO.h"
 #include "net/netio/NDServerNetIO.h"
 
+#include "special/NDSpecialProtocol.h"
 
 #include "local/NDServerInfo.h"
 #include "local/NDLocalServer.h"
@@ -24,6 +26,7 @@
 
 using NDShareBase::NDGuardLock;
 using NDShareBase::NDConsoleColor;
+using NDShareBase::NDServerSession;
 using NDShareBase::NDSessionManager;
 using NDShareBase::NDServerTask;
 using NDShareBase::g_pLogManager;
@@ -47,12 +50,6 @@ m_pCSIMutex( new NDMutexLock )
 
 NDServerManager::~NDServerManager(void)
 {
-	NDBool bClientNetIO = NDFalse;
-	if ( m_connServerTable.size() > 0 )
-	{
-		bClientNetIO = NDTrue;
-	}
-
 	for (ConnServerTableIter iterBegin = m_connServerTable.begin(),
 							 iterEnd   = m_connServerTable.end();
 							 iterBegin != iterEnd;
@@ -97,7 +94,7 @@ NDBool NDServerManager::startServer( NDLocalServer* pLocalServer, NDBool bConnOt
 	if ( NDFalse == bRet )
 	{
 		ostringstream& oStr = m_pListenServer->getostringstream();
-		oStr		<< " " << pListenServerInfo->getServerName() << "("  << pListenServerInfo->getServerIP() << ":" << pListenServerInfo->getServerPort() << ") start failed!";
+		oStr		<< " " << pListenServerInfo->getServerName() << " ["  << pListenServerInfo->getServerIP() << ":" << pListenServerInfo->getServerPort() << "] start failed!";
 		NDLOG_ERROR	<< oStr.str() << NDLOG_END;
 		oStr.clear();
 		oStr.str("");
@@ -107,18 +104,29 @@ NDBool NDServerManager::startServer( NDLocalServer* pLocalServer, NDBool bConnOt
 	
 
 	m_pListenNetIO->setProcessor( process );
+	m_pListenNetIO->setCommonDisconnectNtyProtocol( new NDDisconnectNtyProtocol );
 
 	setDisposeProtocol();
 	
 	if ( NDTrue == bConnOtherServer )
 	{
+		NDConnectProcess* pConnecter = m_pListenServer->connectProcess();
+		if ( NULL == pConnecter )
+		{
+			return NDFalse;
+		}
+		if ( NDFalse == connectServer( pConnecter ) )
+		{
+			NDLOG_ERROR	<< " [NDServerManager::startServer] connectServer failed! " << NDLOG_END;
+			return NDFalse;
+		}
 	}
 
 
 	//m_pListenNetIO->SetCheckSessionTimer();
 
 	ostringstream& oStr = m_pListenServer->getostringstream();
-	oStr		<< " " << pListenServerInfo->getServerName() << "(" << pListenServerInfo->getServerIP() << ":" << pListenServerInfo->getServerPort() << ") listening ...";
+	oStr		<< " " << pListenServerInfo->getServerName() << " [" << pListenServerInfo->getServerIP() << ":" << pListenServerInfo->getServerPort() << "] listening ...";
 	NDLOG_INFO	<< oStr.str() << NDLOG_END;
 	oStr.clear();
 	oStr.str("");
@@ -224,6 +232,7 @@ NDBool NDServerManager::connectServerDisponse( NDServerInfo* pServerInfo, NDConn
 			if ( NULL == pClientNetIO )
 			{
 				pClientNetIO = new NDClientNetIO;
+				pClientNetIO->setPingProtocol( new NDPingProtocol );
 			}
 			
 			if ( pClientNetIO->connect( pServerInfo->getServerIP(), pServerInfo->getServerPort() ) )
@@ -243,9 +252,9 @@ NDBool NDServerManager::connectServerDisponse( NDServerInfo* pServerInfo, NDConn
 				ostringstream& oStr = m_pListenServer->getostringstream();
 
 				oStr		<< " connect "
-							<< pServerInfo->getServerName() << "(" 
+							<< pServerInfo->getServerName() << " [" 
 							<< pServerInfo->getServerIP()	<< ":" 
-							<< pServerInfo->getServerPort() << ") ! ";
+							<< pServerInfo->getServerPort() << "] success ! ";
 				NDLOG_INFO  << oStr.str() << NDLOG_END;
 				oStr.clear();
 				oStr.str("");
@@ -267,9 +276,9 @@ NDBool NDServerManager::connectServerDisponse( NDServerInfo* pServerInfo, NDConn
 					ostringstream& oStr = m_pListenServer->getostringstream();
 
 					oStr		<< " connect "
-								<< pServerInfo->getServerName() << "(" 
+								<< pServerInfo->getServerName() << " [" 
 								<< pServerInfo->getServerIP()	<< ":" 
-								<< pServerInfo->getServerPort() << ") error! ";
+								<< pServerInfo->getServerPort() << "] error! ";
 					NDLOG_ERROR << oStr.str() << NDLOG_END;
 					oStr.clear();
 					oStr.str("");
@@ -572,8 +581,8 @@ NDBool NDServerManager::mainLoop()
 	if ( !m_connServerTable.empty() && NULL == pConnecter )
 	{
 		ostringstream& oStr = m_pListenServer->getostringstream();
-		oStr << " NDServerManager::mainLoop pConnecter is NULL! ListenServerType= " << pListenServerInfo->getServerName();
-		string oStrTemp = oStr.str();
+		oStr << " NDServerManager::mainLoop pConnecter is NULL! ListenServerType = " << pListenServerInfo->getServerName();
+		string oStrTemp( oStr.str() );
 		NDTOTAL_LOG_ERROR( oStrTemp.c_str() )
 		oStr.clear();	//clear()清除当前错误控制状态;
 		oStr.str("");	//str("")将缓冲区清零,清除脏数据;
@@ -618,7 +627,7 @@ NDBool NDServerManager::mainLoop()
 
 		m_pListenServer->run();
 
-		NDShareBaseGlobal::nd_sleep( 100 );
+		NDShareBaseGlobal::nd_sleep2( 100 );
 
 	}while( true );
 
@@ -663,6 +672,19 @@ void NDServerManager::setDisposeProtocol()
 
 	////服务器GATE到服务器MAP类型;(这条是客户端发送给GATESERVER,转化给MAPSERVER的);
 	//m_pListenNetIO->SetDisposeProtocol( NDSessionProtocolType_GT2M, CMD_NDClient2Gate_Start, CMD_NDClient2Gate_End );
+}
+
+NDBool NDServerManager::pingProtocolCommonDispose( NDUint32 nSessionID )
+{
+	NDServerSession* pServerSession = dynamic_cast<NDServerSession*>( NDSessionManager::getInstance()->findServerSession( nSessionID ) );
+	if ( NULL == pServerSession )
+	{
+		return NDFalse;
+	}
+
+	pServerSession->setLastPingSecondTime( NDShareBase::NDShareBaseGlobal::nd_getCurSecondTimeOfUTC() );
+
+	return NDTrue;
 }
 
 

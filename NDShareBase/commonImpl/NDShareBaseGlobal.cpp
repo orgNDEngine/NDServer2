@@ -422,7 +422,7 @@ NDBool NDShareBaseGlobal::nd_isValidStrParam( const char* pParam, NDUint32& refL
 	return NDTrue;
 }
 
-NDUint32 NDShareBaseGlobal::nd_safeStrCopy( const char* pSrc, char* pDest, NDUint32 nSrcLen, NDUint32 nDestLen )
+NDUint32 NDShareBaseGlobal::nd_safeStrCopy( char* pDest, const char* pSrc, NDUint32 nDestLen, NDUint32 nSrcLen )
 {
 	NDUint32 nRet = nSrcLen;
 	if ( nSrcLen >= nDestLen )
@@ -437,7 +437,7 @@ NDUint32 NDShareBaseGlobal::nd_safeStrCopy( const char* pSrc, char* pDest, NDUin
 }
 
 
-NDUint32 NDShareBaseGlobal::nd_strlcpy( const char* pSrc, char* pDest, NDUint32 nDestLen )
+NDUint32 NDShareBaseGlobal::nd_strlcpy( char* pDest, const char* pSrc, NDUint32 nDestLen )
 {
 	char* d			= pDest;
 	const char* s	= pSrc;

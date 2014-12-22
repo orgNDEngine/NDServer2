@@ -81,6 +81,10 @@ public:
 	//send protocol to client(real client);
 	NDBool					sendToClient( NDProtocol& protocol, NDUint32 nSessionID, NDBool bCompression=NDFalse, NDBool bEncrypt=NDFalse, NDBool bCrc=NDFalse );
 
+	//处理客户端的PING协议;
+	NDBool					pingProtocolCommonDispose( NDUint32 nSessionID );
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	/* connect server dispose start */
 
 	// get connect server Info;
@@ -106,6 +110,7 @@ public:
 	NDBool					sendToServer( NDProtocol& protocol, NDUint32 nSessionID, NDBool bCompression=NDFalse, NDBool bEncrypt=NDFalse, NDBool bCrc=NDFalse );
 
 	/* connect server dispose end */
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 private:
 

@@ -63,7 +63,7 @@
 #endif
 
 #ifndef MAX_SERVER_NAME
-#define MAX_SERVER_NAME		( 64 )
+#define MAX_SERVER_NAME		( 32 )
 #endif
 
 #ifndef MAX_PATH_LEN
@@ -74,7 +74,7 @@
 #define CTYPE_NUM_CHARS		( 256 )
 #endif
 
-// ip default length(ipv4: 16个字符. ipv6:还不知道.)
+// ip default length(ipv4: 16个字符. ipv6:还不知道.);
 #ifndef ND_IP_LENGTH
 #define ND_IP_LENGTH		( 32 )
 #endif

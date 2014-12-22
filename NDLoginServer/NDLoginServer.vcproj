@@ -210,6 +210,18 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="message"
+				>
+				<File
+					RelativePath=".\src\message\NDS2SRegisterCallBack.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\message\NDWS2LSCallBack.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="include"
@@ -247,6 +259,18 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="message"
+				>
+				<File
+					RelativePath=".\include\message\NDS2SRegisterCallBack.h"
+					>
+				</File>
+				<File
+					RelativePath=".\include\message\NDWS2LSCallBack.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>

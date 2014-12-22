@@ -24,8 +24,7 @@ NDBool NDServerInfo::setServerName( const char* szName )
 		return NDFalse;
 	}
 
-	return ( nStrLen == NDShareBaseGlobal::nd_safeStrCopy( szName, m_szServName, nStrLen, MAX_PATH_LEN ) );
-	 
+	return ( nStrLen == NDShareBaseGlobal::nd_safeStrCopy( m_szServName, szName, MAX_PATH_LEN, nStrLen ) );
 }
 
 const char* NDServerInfo::getServerName() const
@@ -141,7 +140,7 @@ NDBool NDLocalServerInfo::setDumpPath( const char* szDumpPath )
 		return NDFalse;
 	}
 
-	return ( nStrLen == NDShareBaseGlobal::nd_safeStrCopy( szDumpPath, m_szDumpPath, nStrLen, MAX_PATH_LEN ) );
+	return ( nStrLen == NDShareBaseGlobal::nd_safeStrCopy( m_szDumpPath, szDumpPath, MAX_PATH_LEN, nStrLen ) );
 }
 
 NDBool NDLocalServerInfo::setLogPath( const char* szLogPath )
@@ -152,7 +151,7 @@ NDBool NDLocalServerInfo::setLogPath( const char* szLogPath )
 		return NDFalse;
 	}
 
-	return ( nStrLen == NDShareBaseGlobal::nd_safeStrCopy( szLogPath, m_szLogPath, nStrLen, MAX_PATH_LEN ) );
+	return ( nStrLen == NDShareBaseGlobal::nd_safeStrCopy( m_szLogPath, szLogPath, MAX_PATH_LEN, nStrLen ) );
 }
 
 const char* NDLocalServerInfo::getDumpPath() const

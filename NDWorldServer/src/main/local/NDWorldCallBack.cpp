@@ -6,71 +6,58 @@
 
 NDWorldCallBack::NDWorldCallBack(void)
 {
-	//NDRegisterCallBackMACRO( sNDLoginServer.dataProcess(), CMD_DISCONNECT_NOTIFY, this )
-	//NDRegisterCallBackMACRO( sNDLoginServer.dataProcess(), CMD_TIMER_NOTIFY, this )
+	NDRegisterCallBackMACRO( sNDWorldServer.dataProcess(), CMDP_PING, this )
+	NDRegisterCallBackMACRO( sNDWorldServer.dataProcess(), CMDP_DISCONNECT_NOTIFY, this )
+	//NDRegisterCallBackMACRO( sNDWorldServer.dataProcess(), CMD_TIMER_NOTIFY, this )
 }
 
 NDWorldCallBack::~NDWorldCallBack(void)
 {
 }
 
+
+NDBool NDWorldCallBack::pingProtocolDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader )
+{
+	return NDServerManager::getSingleton().pingProtocolCommonDispose( protocolHeader.m_nSessionID );
+}
+
 NDBool NDWorldCallBack::Process( NDIStream& rIStream, NDProtocolHeader& protocolHeader )
 {
 	NDBool bRet = NDFalse;
 
-	//switch (protocolHeader.m_nProtocolID)
-	//{
-	//case CMD_DISCONNECT_NOTIFY:
-	//	{
-	//		bRet = disconnectNotifyDispose( rIStream, protocolHeader );
-	//	}
-	//	break;
+	switch (protocolHeader.m_nProtocolID)
+	{
+	case CMDP_PING:
+		{
+			bRet = pingProtocolDispose( rIStream, protocolHeader );
+		}
+		break;
+	case CMDP_DISCONNECT_NOTIFY:
+		{
+			bRet = disconnectNotifyDispose( rIStream, protocolHeader );
+		}
+		break;
 	//case CMD_TIMER_NOTIFY:
 	//	{
 	//		bRet = timerNotifyDispose( rIStream, protocolHeader );
 	//	}
 	//	break;
-	//default:
-	//	{
+	default:
+		{
 
-	//	}
-	//	break;
-	//}
+		}
+		break;
+	}
 
 	return bRet;
 }
 
-//NDBool NDLoginCallBack::disconnectNotifyDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader )
-//{
-//	//check NDCenterServer offline;
-//	NDRemoteServerInfo* pCenterServerInfo = sNDLoginServer.worldManager()->getRemoteServerInfo( protocolHeader.m_nSessionID );
-//	if ( NULL == pCenterServerInfo )
-//	{
-//		return NDFalse;
-//	}
-//
-//	NDWorld* pWorld = (NDWorld*)pCenterServerInfo;
-//	const NDNetAddress& rNetAddress = pWorld->getNetAddress();
-//
-//	std::ostringstream oStr;
-//	oStr		<< " "
-//				<< pWorld->getServerName()				<< "("
-//				<< rNetAddress.getIP()					<< ":"
-//				<< rNetAddress.getPort()				<< ")"
-//				<< "(WorldName:"
-//				<< pWorld->getWorldName()				<< ")"
-//				<< "(WorldID:"
-//				<< pWorld->getWorldID()					<< ")"
-//				<< " offline! ";
-//	NDTOTAL_LOG_ERROR( oStr.str().c_str() )
-//	oStr.clear();
-//
-//	sNDLoginServer.worldManager()->removeRemoteServer( protocolHeader.m_nSessionID );
-//	
-//	return NDTrue;
-//}
-//
-//NDBool NDLoginCallBack::timerNotifyDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader )
+NDBool NDWorldCallBack::disconnectNotifyDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader )
+{	
+	return NDTrue;
+}
+
+//NDBool NDWorldCallBack::timerNotifyDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader )
 //{
 //	//每500毫秒受到此消息
 //	return NDTrue;

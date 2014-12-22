@@ -650,7 +650,7 @@ NDBool NDMysqlQueryResult::ParseSelectResultToStruct( void* pStructAddr, const N
 				NDUint32 nStrLen = 0;
 				if ( NDTrue == NDShareBaseGlobal::nd_isValidStrParam( pStrValue, nStrLen) )
 				{
-					NDShareBaseGlobal::nd_safeStrCopy( pStrValue, pCharAddr, nStrLen, pSelectResultType[i].m_nExtend );
+					NDShareBaseGlobal::nd_safeStrCopy( pCharAddr, pStrValue, pSelectResultType[i].m_nExtend, nStrLen );
 				}
 			}
 			break;

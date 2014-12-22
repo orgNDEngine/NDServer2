@@ -236,7 +236,7 @@ NDBool NDXmlConfigServerCommon::readConnInfoCfgCommonContent( const TiXmlElement
 		
 		ConnInfoBaseAttribute connInfoBaseAttribute;
 		memset( &connInfoBaseAttribute, 0, sizeof(connInfoBaseAttribute) );
-		NDShareBaseGlobal::nd_safeStrCopy( pContent, connInfoBaseAttribute.szServerName, (NDUint32)strlen(pContent), sizeof(connInfoBaseAttribute.szServerName) );
+		NDShareBaseGlobal::nd_safeStrCopy( connInfoBaseAttribute.szServerName, pContent, sizeof(connInfoBaseAttribute.szServerName), (NDUint32)strlen(pContent) );
 
 		nIntValue = 0;
 		if ( getElement2( pSonOfChildElement, CONNINFO_SERVERID, nIntValue) )

@@ -3,8 +3,8 @@
 
 #include "NDPreCompiler.h"
 
-//#include "Message/NDS2SRegisterCallBack.h"
-//#include "Message/NDC2LCallBack.h"
+#include "message/NDS2SRegisterCallBack.h"
+#include "message/NDWS2LSCallBack.h"
 //#include "Message/NDL2ACallBack.h"
 //#include "Message/NDClient2LCallBack.h"
 
@@ -17,12 +17,15 @@ public:
 	NDBool Process( NDIStream& rIStream, NDProtocolHeader& protocolHeader );
 
 private:
-	//NDBool disconnectNotifyDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader );
+	//client ping protocol dispose;
+	NDBool pingProtocolDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader );
+	//client disconnect dispose;
+	NDBool disconnectNotifyDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader );
 	//NDBool timerNotifyDispose( NDIStream& rIStream, NDProtocolHeader& protocolHeader );
 
 private:
-	//NDS2SRegisterCallBack		m_NDS2SRegisterCallBack;
-	//NDC2LCallBack				m_NDC2LCallBack;
+	NDS2SRegisterCallBack		m_NDS2SRegisterCallBack;
+	NDWS2LSCallBack				m_NDWS2LSCallBack;
 	//NDL2ACallBack				m_NDL2ACallBack;
 	//NDClient2LCallBack			m_NDClient2LCallBack;
 };

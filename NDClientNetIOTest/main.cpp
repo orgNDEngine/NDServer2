@@ -8,9 +8,12 @@
 using namespace std;
 
 #include "NDShareBaseGlobal.h"
+#include "NDCLibFun.h"
+#include "file/NDCFile.h"
 #include "file/NDConfig.h"
 #include "net/session/NDSessionManager.h"
 #include "net/process/NDServerTask.h"
+
 
 #include "event/timerEvent/NDTimerEventManager.h"
 
@@ -26,6 +29,7 @@ int main(int argc, char ** argv)
 	NDUint32 nDayofweek = NDShareBaseGlobal::nd_getdayofweek( 2012, 11, 4 );
 
 	char szBuf[64] = {0};
+	
 
 	NDShareBaseGlobal::nd_init();
 

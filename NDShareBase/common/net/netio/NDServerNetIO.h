@@ -50,10 +50,12 @@ public:
 	NDBool		setSessionProtocolType( NDUint32 nSessionID, NDUint8 sessionProtocolType );
 
 
+	//设置处理函数;
 	static	NDBool		setProcessor( NDProcess* pProcess );
-	static	NDBool		checkSessionTimerFunction();
 	//设置通用客户端断开连接时的内部向上层抛出的DisconnectNtyProtocol;
 	static	NDBool		setCommonDisconnectNtyProtocol( NDProtocol* pDisconnectNtyProtocol );
+
+	static	NDBool		checkSessionTimerFunction();
 
 	//设置服务器要处理的协议类型;
 	static	NDBool		setDisposeProtocol( NDUint8 eType, NDUint32 nBeginProtocol, NDUint32 nEndProtocol );

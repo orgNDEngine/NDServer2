@@ -193,6 +193,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\src\main\local\NDWorldConnectProcess.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\src\main\local\NDWorldServer.cpp"
 						>
 					</File>
@@ -201,6 +205,14 @@
 					Name="remote"
 					>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="message"
+				>
+				<File
+					RelativePath=".\src\message\NDS2SRegisterCallBack.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -223,6 +235,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\include\main\local\NDWorldConnectProcess.h"
+						>
+					</File>
+					<File
 						RelativePath=".\include\main\local\NDWorldServer.h"
 						>
 					</File>
@@ -231,6 +247,14 @@
 					Name="remote"
 					>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="message"
+				>
+				<File
+					RelativePath=".\include\message\NDS2SRegisterCallBack.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>
